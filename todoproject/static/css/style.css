@@ -1,0 +1,10 @@
+body {
+  background: linear-gradient(180deg, #3697ef, #914e9d) fixed no-repeat;
+  min-height: 100vh
+}
+
+#app-container {
+  width: 1000px;
+  min-height: 350px;
+  border-radius: 30px;
+}

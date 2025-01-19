@@ -10,14 +10,13 @@ def todoapp(request):
 
 def add_task(request):
 	task = Task()
-	task.title = request.POST['title']
 	task.description = request.POST['description']
 	task.priority = request.POST['priority']
 	task.save()
-	return HttpResponseRedirect('/todoapp/')
+	return HttpResponseRedirect('/')
 
 
-def delete_task(request, id):
-	task = Task.objects.get(id=id)
+def delete_task(request, i):
+	task = Task.objects.get(id=i)
 	task.delete()
-	return HttpResponseRedirect('/todoapp/')
+	return HttpResponseRedirect('/')
