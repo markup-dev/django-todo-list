@@ -14,7 +14,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from tkinter.font import names
 
 from django.contrib import admin
 from django.urls import path
@@ -30,6 +29,6 @@ urlpatterns = [
     path('delete_all_tasks/', todo_views.delete_all_tasks, name='delete_all_tasks'),
     path('done_task/<int:i>', todo_views.done_task, name='done_task'),
     path('register/', users_views.register, name='register'),
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('login/', users_views.login_view, name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
 ]

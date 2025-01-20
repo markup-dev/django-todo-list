@@ -5,6 +5,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column, Field
 from django.core.exceptions import ValidationError
 import re
+from django.contrib.auth import authenticate
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -83,3 +84,54 @@ class UserRegistrationForm(UserCreationForm):
 		if not password2:
 			raise ValidationError('Поле пароля не может быть пустым')
 		return password2
+
+
+class UserLoginForm(forms.Form):
+	username = forms.CharField(
+		label='Логин',
+		widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите логин'})
+	)
+	password = forms.CharField(
+		label='Пароль',
+		widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Введите пароль'})
+	)
+
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.helper = FormHelper()
+		self.helper.form_method = 'post'
+
+		self.fields['username'].label = 'Логин'
+		self.fields['password'].label = 'Пароль'
+		self.fields['password'].help_text = 'Введите пароль'
+
+		self.fields['username'].widget.attrs.update(
+			{
+				'class': 'form-control',
+				'placeholder': 'Введите логин'
+			}
+		)
+		self.fields['password'].widget.attrs.update(
+			{
+				'class': 'form-control',
+				'placeholder': 'Введите пароль'
+			}
+		)
+
+		self.helper.layout = Layout(
+			Field('username', css_class='form-group mb-3'),
+			Field('password', css_class='form-group mb-3'),
+			Submit('submit', 'Войти', css_class='btn btn-primary bg-gradient')
+		)
+
+	def clean(self):
+		cleaned_data = super().clean()
+		username = cleaned_data.get('username')
+		password = cleaned_data.get('password')
+		
+		if username and password:
+			user = authenticate(username=username, password=password)
+			if not user:
+				raise forms.ValidationError('Неверный логин или пароль')
+		return cleaned_data
+

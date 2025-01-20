@@ -6,7 +6,7 @@ from .models import Task
 
 @login_required
 def task_list(request):
-	tasks = Task.objects.filter(user=request.user).order_by('priority', 'done')
+	tasks = Task.objects.filter(user=request.user).order_by('done', '-priority')
 	user = request.user
 	return render(request, 'todolist.html', {'tasks': tasks, 'user': user})
 
