@@ -4,7 +4,11 @@ body {
 }
 
 #app-container {
-  width: 1000px;
+  width: 1200px;
   min-height: 350px;
+  border-radius: 30px;
+}
+
+.rounded-30 {
   border-radius: 30px;
 }
